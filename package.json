@@ -1,0 +1,30 @@
+{
+  "name": "emoto",
+  "version": "0.0.1",
+  "description": "a mood berometer for crew and personal mood",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Viva-con-Agua/emoto.git"
+  },
+  "author": "Jens Ottmann",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Viva-con-Agua/emoto/issues"
+  },
+  "homepage": "https://github.com/Viva-con-Agua/emoto#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.6"
+  },
+  "jshintConfig": {
+    "esversion": 6,
+    "strict": true,
+    "node": true
+  }
+}
