@@ -1,12 +1,23 @@
 'use strict';
 
-class MoodController{
-  static getQuestions(){
-    return {};
+const models = require('./../models');
+
+class QuestionController{
+  static getAllPublic(){
+    return models.Question.findAll({
+      where: {
+        userId: null
+      }
+    });
   }
-  static getQuestionsForUser(userId){
-    return {};
+
+  static getAllCustom(userId){
+    return models.Question.findAll({
+      where: {
+        userId: userId
+      }
+    });
   }
 }
 
-module.exports = MoodController;
+module.exports = QuestionController;
