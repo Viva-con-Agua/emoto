@@ -1,42 +1,59 @@
 'use strict';
 
+const models = require('./../server/models');
+
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Answers', [
+    return queryInterface.bulkInsert('AnswerSets', [
       {
-        "answer": "sehr negativ",
-        "set": 0,
-        "weight": -3
-      },
-      {
-        "answer": "negativ",
-        "set": 0,
-        "weight": -2
-      },
-      {
-        "answer": "eher negativ", 
-        "set": 0,
-        "weight": -1
-      },
-      {
-        "answer": "eher positiv", 
-        "set": 0,
-        "weight": 1
-      },
-      {
-        "answer": "positiv",
-        "set": 0,
-        "weight": 2
-      },
-      {
-        "answer": "sehr positiv",
-        "set": 0,
-        "weight": 3
+        "posAdjective" : "positiv",
+        "negAdjective" : "negativ"
       }
-    ]);
+    ])
+    .then(function(){
+        return models.AnswerSet.findAll();
+    })
+    .then(function(answerSets){
+      return queryInterface.bulkInsert('Answers', [
+        {
+          "answer": "sehr negativ",
+          "answerSetId": answerSets[0].dataValues.id,
+          "weight": -3
+        },
+        {
+          "answer": "negativ",
+          "answerSetId": answerSets[0].dataValues.id,
+          "weight": -2
+        },
+        {
+          "answer": "eher negativ", 
+          "answerSetId": answerSets[0].dataValues.id,
+          "weight": -1
+        },
+        {
+          "answer": "eher positiv", 
+          "answerSetId": answerSets[0].dataValues.id,
+          "weight": 1
+        },
+        {
+          "answer": "positiv",
+          "answerSetId": answerSets[0].dataValues.id,
+          "weight": 2
+        },
+        {
+          "answer": "sehr positiv",
+          "answerSetId": answerSets[0].dataValues.id,
+          "weight": 3
+        }
+      ]);
+    });
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Answers', null, {});
+    return queryInterface.bulkDelete('Answers', null, {})
+    .then(function(){
+      return queryInterface.bulkDelete('AnswerSets', null, {});
+    });
   }
 };
