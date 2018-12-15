@@ -11,6 +11,22 @@ class QuestionController{
     });
   }
 
+  static getAllPublicWithAnswers(){
+    return models.Question.findAll({
+      where: {
+        userId: null
+      },
+      include: [
+        {
+          model: models.AnswerSet, 
+          include: [
+            models.Answer
+          ]  
+        }
+      ]
+    });
+  }
+
   static getAllCustom(userId){
     return models.Question.findAll({
       where: {
