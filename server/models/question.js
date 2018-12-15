@@ -8,6 +8,8 @@ module.exports = (sequelize, DataTypes) => {
   });
   Question.associate = function(models) {
     Question.belongsTo(models.User);
+    Question.belongsTo(models.AnswerSet);
+    Question.hasMany(models.Mood);
   };
   return Question;
 };

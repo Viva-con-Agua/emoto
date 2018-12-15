@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   User.associate = function(models) {
     User.hasMany(models.Question);
+    User.hasMany(models.MoodPicture);
   };
   return User;
 };
