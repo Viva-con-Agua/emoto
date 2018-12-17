@@ -37,6 +37,16 @@ app.post('/mood', function (req, res) {
   return MoodPictureController.createMoodPicture(req.body)
   .then(function(m){
     return res.send(m);
+  })
+  .catch(function(err){
+    return res.status(500).send({'error': err.message});
+  });
+});
+
+app.get('/lastMoodPicture', function(req, res){
+  return MoodPictureController.getLastMoodPicturePreparedForUI(9)
+  .then(function(moodPicture){
+    res.send(moodPicture);
   });
 });
 
