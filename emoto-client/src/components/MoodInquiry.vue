@@ -40,8 +40,28 @@
         </el-col>
       </el-row>
     </el-form>
+    <el-dialog
+      title="Stimmungsbild"
+      :visible.sync="dialogSuccessVisible"
+      width="30%">
+      <span>Deine Sitmmung wurde gespeichert</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogSuccessVisible = false">Schließen</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog
+      title="Stimmungsbild"
+      :visible.sync="dialogErrorVisible"
+      width="30%">
+      <span>Deine Sitmmung wurde <strong>nicht</strong> gespeichert. Grund: <i>{{error}}</i></span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogErrorVisible = false">Schließen</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
+
+
 
 <script>
 
@@ -64,7 +84,10 @@ export default {
       form: {
         mood: []
       },
-      user: 0
+      user: 9,
+      dialogSuccessVisible: false,
+      dialogErrorVisible: false,
+      error: null
     }
   },
   created () {
@@ -100,8 +123,17 @@ export default {
     },
     onSubmit: function(){
       const body = this.createRequestBodyFromForm(this.form.mood);
-      axios.post('http://localhost:3000/mood', body).then(response => {
-        console.log(response.data);
+      axios.post('http://localhost:3000/mood', body)
+      .then(response => {
+        if(response.status === 200){
+          this.dialogSuccessVisible = true;
+        }else{
+          this.dialogErrorVisible = true;
+        }
+      })
+      .catch((err) => {
+        this.error=err.response.data.error;
+        this.dialogErrorVisible = true;
       });
     },
     createRequestBodyFromForm(formData){
