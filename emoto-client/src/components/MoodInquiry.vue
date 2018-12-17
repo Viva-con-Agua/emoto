@@ -18,8 +18,8 @@
               </div>
               <div class="text item">
                 <el-form-item>
-                    <el-radio-group v-model="form.mood[item.id].answer">
-                      <el-radio-button v-for="a in item.AnswerSet.Answers" :key="a.id" :label="a.answer"></el-radio-button>
+                    <el-radio-group v-model="form.mood[item.id].answerId">
+                      <el-radio-button v-for="a in item.AnswerSet.Answers" :key="a.id" :label="a.id">{{a.answer}}</el-radio-button>
                     </el-radio-group>
                   </el-form-item>
                   <el-form-item>
@@ -81,10 +81,9 @@ export default {
                     let mood = [];
                     this.questions.forEach(function(q){
                       let data = {
-                        'id': q.id,
-                        'question': q.question,
-                        'answer': '',
-                        'comment': ''
+                        'questionId': q.id,
+                        'answerId': null,
+                        'comment': null
                       };
                       
                       mood[q.id]=data;
