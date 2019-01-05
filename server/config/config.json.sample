@@ -3,7 +3,7 @@
     "username": "emoto",
     "password": "T%Bk.JyQ,wHNA%%z%mWtjF_yVWB4avnAtXbdpnwuNmpGnnpsBxHcLrWyCwWBj8,d",
     "database": "emoto",
-    "host": "172.17.0.3",
+    "host": "172.17.0.2",
     "dialect": "mysql"
   },
   "test": {
