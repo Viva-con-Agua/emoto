@@ -79,6 +79,7 @@ class MoodPicutreController{
     return MoodPicutreController.getLastMoodPicture(userId)
     .then(function(moodPicture){
       moodPictureUI.userId = moodPicture.userId;
+      moodPictureUI.date = moodPicture.date;
       moodPicture.moods.forEach(function(mood){
         moodPictureUI.moodCount++;
         const moodUI = {
