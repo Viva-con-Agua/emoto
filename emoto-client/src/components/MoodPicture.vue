@@ -1,45 +1,17 @@
 <template>
-  <div class="MoodInquiry">
-    {{moodPicutre}}
+  <div class="MoodPicture"> 
+    <h1> Last Mood</h1>
+    <mood-chart />
+    <mood-chart />
   </div>
 </template>
 
 <script>
-
-import axios from 'axios'
-import Vue from 'vue'
-
+import MoodChart from '@/components/MoodChart'
 export default {
-  name: 'MoodPicture',
-  data (){
-    return {
-      moodPicutre: null
-    }
-  },
-  created(){
-    this.getMoodPicutre
-  },
-  methods: {
-    getMoodPicutre: function(){
-      axios.get('http://localhost:3000/lastMoodPicture')
-      .then(response => {
-        switch(response.status){
-          case 200: 
-            this.moodPicutre = response.data
-            break
-        }
-      })
-      .catch(error => {
-                if(error.response){
-                  this.errorState = error.response.status
-                }
-      })
-    }
-  }
+  components: {MoodChart}
 }
-
 </script>
 
 <style scoped>
-
 </style>
