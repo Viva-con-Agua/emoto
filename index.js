@@ -24,16 +24,53 @@ app.get('/', function (req, res) {
   return res.send('emoto is running');
 });
 
+//Query Param id is optional
 app.get('/mood', function (req, res) {
-  return res.status(501);
+  const id = req.query.id || undefined;
+  if(!!id){
+    return MoodPictureController.getMoodPictureByIdPreparedForUI(9, id)
+    .then(function(m){
+      return res.send(m);
+    })
+    .catch(function(err){
+      return res.status(500).send({'error': err.message});
+    });
+  }else{
+    return MoodPictureController.getLastMoodPicturePreparedForUI(9)
+    .then(function(moodPicture){
+      res.send(moodPicture);
+    })
+    .catch(function(err){
+      return res.status(500).send({'error': err.message});
+    });
+  }
 });
 
 app.get('/moods', function (req, res) {
-  return res.status(501);
+  let quantity = req.query.quantity || 3;
+  return MoodPictureController.getMoodPictures(9, quantity)
+  .then(function(m){
+    return res.send(m);
+  })
+  .catch(function(err){
+    return res.status(500).send({'error': err.message});
+  });
 });
 
+app.get('/moods/id', function(req, res){
+  const quantity = parseInt(req.query.quantity) || 3;
+  const offset = parseInt(req.query.offset) || 0;
+  return MoodPictureController.getMoodPictureIds(9, quantity, offset)
+  .then(function(response){
+    return res.send(response);
+  })
+  .catch(function(err){
+    return res.status(500).send({'error': err.message});
+  });
+});
+
+
 app.post('/mood', function (req, res) {
-  console.log(req.body);
   return MoodPictureController.createMoodPicture(req.body)
   .then(function(m){
     return res.send(m);
@@ -47,6 +84,9 @@ app.get('/lastMoodPicture', function(req, res){
   return MoodPictureController.getLastMoodPicturePreparedForUI(9)
   .then(function(moodPicture){
     res.send(moodPicture);
+  })
+  .catch(function(err){
+    return res.status(500).send({'error': err.message});
   });
 });
 

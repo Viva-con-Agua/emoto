@@ -2,6 +2,7 @@
 
 const models = require('./../models');
 const MoodController = require('./MoodController');
+const MoodPictureHelper = require('./../helper/MoodPictureHelper');
 
 class MoodPicutreController{
   static createMoodPicture(moodPicture){
@@ -38,6 +39,93 @@ class MoodPicutreController{
     });
   }
 
+  static getMoodPictures(userId, quantity){
+    return models.MoodPicture.findAll({
+      where: {
+        userId: userId
+      },
+      order: [
+        ['date', 'DESC']
+      ],
+      limit: quantity
+    })
+    .then(function(result){
+      return Promise.all(result.map(function(r){
+        return MoodPictureHelper.getMoodsForMoodPicture(r.dataValues)
+        .then(function(mood){
+          return MoodPictureHelper.prepareMoodPictureForUI(mood);
+        });
+      }));
+    });
+  }
+
+  static getMoodPictureByDate(userId, date){
+    
+  }
+
+  static getMoodPictureById(userId,id){
+    return models.MoodPicture.find({
+      where: {
+        userId: userId,
+        id: id
+      }
+    })
+    .then(function(result){
+      return MoodPictureHelper.getMoodsForMoodPicture(result.dataValues);
+    });
+  }
+
+  static getMoodPictureByIdPreparedForUI(userId, id){
+    return MoodPicutreController.getMoodPictureById(userId, id)
+    .then(function(moodPicture){
+      return MoodPictureHelper.prepareMoodPictureForUI(moodPicture);
+    });
+  }
+
+  static getMoodPictureIds(userId, quantity, offset){
+
+    let response = {
+      id: [],
+      offset: offset,
+      count: undefined
+    };
+    return models.MoodPicture.findAll({
+      attributes: ['id'],
+      where: {
+        userId: userId
+      },
+      limit: quantity,
+      offset: offset,
+      order: [
+        ['date', 'DESC']
+      ],
+    //  raw:true
+    })
+    .then(function(result){
+      
+      result.forEach(function(record){
+        response.id.push(record.id);
+      });
+      
+      return MoodPicutreController.getMoodPictureCount(userId);
+    })
+    .then(function(count){
+      response.count = count;
+      return Promise.resolve(response);
+    });
+  }
+
+  static getMoodPictureCount(userId){
+    return models.MoodPicture.findAndCountAll({
+      where: {
+        userId: userId
+      }
+    })
+    .then(function(result){
+      return Promise.resolve(result.count);
+    })
+  }
+
   static getLastMoodPicture(userId){
     let moodPicture = null;
     return models.MoodPicture.find({
@@ -49,12 +137,7 @@ class MoodPicutreController{
       ]
     })
     .then(function(result){
-      moodPicture = result.dataValues;
-      return MoodController.getMoodsByMoodPictureId(moodPicture.id);
-    })
-    .then(function(moods){
-      moodPicture.moods = moods;
-      return Promise.resolve(moodPicture);
+      return MoodPictureHelper.getMoodsForMoodPicture(result.dataValues);
     })
     .catch(function(err){
       console.log(err);
@@ -62,59 +145,9 @@ class MoodPicutreController{
   }
 
   static getLastMoodPicturePreparedForUI(userId){
-    let moodPictureUI = {
-      userId: null,
-      moodCount : 0,
-      moods : {
-        negativ: [],
-        neutral: [],
-        positive: []
-      },
-      percent : {
-        negativ: 0,
-        neutral: 0,
-        positive: 0
-      }
-    };
     return MoodPicutreController.getLastMoodPicture(userId)
     .then(function(moodPicture){
-      moodPictureUI.userId = moodPicture.userId;
-      moodPictureUI.date = moodPicture.date;
-      moodPicture.moods.forEach(function(mood){
-        moodPictureUI.moodCount++;
-        const moodUI = {
-          question: mood['Question.question'],
-          answer: mood['Answer.answer'],
-          weight: mood['Answer.weight']
-        };
-
-        switch(moodUI.weight){
-          case -3: 
-            moodPictureUI.moods.negativ.push(moodUI);
-            break;
-          case -2: 
-            moodPictureUI.moods.negativ.push(moodUI);
-            break;
-          case -1: 
-            moodPictureUI.moods.neutral.push(moodUI);
-            break;
-          case 1: 
-            moodPictureUI.moods.neutral.push(moodUI);
-            break;
-          case 2: 
-            moodPictureUI.moods.positive.push(moodUI);
-            break;
-          case 3: 
-            moodPictureUI.moods.positive.push(moodUI);
-            break;
-        }
-      });
-
-      moodPictureUI.percent.negativ = moodPictureUI.moods.negativ.length / moodPictureUI.moodCount * 100;
-      moodPictureUI.percent.neutral = moodPictureUI.moods.neutral.length / moodPictureUI.moodCount * 100;
-      moodPictureUI.percent.positive = moodPictureUI.moods.positive.length / moodPictureUI.moodCount * 100;
-
-      return Promise.resolve(moodPictureUI);
+      return MoodPictureHelper.prepareMoodPictureForUI(moodPicture);
     });
   }
 }
