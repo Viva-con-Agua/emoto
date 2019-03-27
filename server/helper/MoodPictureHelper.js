@@ -1,6 +1,7 @@
 'use strict';
 
 const MoodController = require('./../controller/MoodController');
+const QuestionController = require('./../controller/QuestionController');
 
 class MoodPictureHelper{
   static prepareMoodPictureForUI(moodPicture){
@@ -26,7 +27,8 @@ class MoodPictureHelper{
       const moodUI = {
         question: mood['Question.question'],
         answer: mood['Answer.answer'],
-        weight: mood['Answer.weight']
+        weight: mood['Answer.weight'],
+        comment: mood['comment']
       };
 
       switch(moodUI.weight){
@@ -64,6 +66,19 @@ class MoodPictureHelper{
       moodPicture.moods = moods;
       return Promise.resolve(moodPicture);
     });
+  }
+
+  static handleCustomQuestions(userId, moods){
+    let questions = []
+    return Promise.all(moods.map(function(m){
+      if(m.questionId < 0){
+        QuestionController.createCustomQuestion(userId, m.question)
+        .then(function(q){
+          m.questionId = q.id;
+        });
+      }
+      return Promise.resolve(m);
+    }));
   }
 }
 

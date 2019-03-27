@@ -2,7 +2,8 @@
 module.exports = (sequelize, DataTypes) => {
   const Question = sequelize.define('Question', {
     question: DataTypes.STRING,
-    userId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
+    answerSetId: DataTypes.INTEGER
   }, {
     timestamps: true
   });

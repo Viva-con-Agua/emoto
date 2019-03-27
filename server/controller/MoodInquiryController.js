@@ -8,6 +8,10 @@ class MoodInquiryController{
     return QuestionController.getAllPublicWithAnswers();
   }
 
+  static getCustomMoodInquiry(userId){
+    return QuestionController.getCustomAndPublicWithAnswers(userId);
+  }
+
 }
 
 module.exports = MoodInquiryController;
