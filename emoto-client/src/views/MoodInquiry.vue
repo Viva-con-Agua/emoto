@@ -252,31 +252,37 @@ export default {
         formIndex: this.form.mood.length
       };
       this.customQuestions.push(Object.assign({}, q));
-
+      
       const m = {
         'questionId': this.customQuestionsId,
         'answerId': null,
         'comment': null,
         question: null
       }
+      
       this.form.mood.push(Object.assign({}, m));
       this.customQuestionsId--;
     },
     removeQuestion: function(deleteIndex, formIndex){
         //Delete from Form Model
-        Vue.delete(this.form.mood, formIndex)
-
+        //Vue.delete(this.form.mood, formIndex)
+        //Delete by setting a empty object
+        Vue.set(this.form.mood, formIndex, {});
+        
         //Delete from Custom Questions Colleciton
         let q = this.customQuestions;
         q.splice(deleteIndex, 1);
         this.customQuestions = q;
     },
     createRequestBodyFromForm(formData){
+      //Drop all empty objects from the form 
+      const f = formData.filter(i => Object.keys(i).length !== 0);
+
       const data = {
         user: this.user,
         mood: []
       };
-      formData.forEach(function(e){
+      f.forEach(function(e){
         data.mood.push(Object.assign({}, e))
       })
       return data;
