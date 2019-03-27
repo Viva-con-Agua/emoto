@@ -1,17 +1,29 @@
 <template>
   <div class="MoodChart" > 
-      <h2>{{date}}</h2>
-      <div class="chart" :style="{ backgroundImage: 'url(' + image + ')' }">
-        <apexchart  type=bar height=300 width=150 :options="chartOptions" :series="series" />
+    <div class="wrapper" ref="wrapper"  v-bind:style="{ backgroundImage: 'url(' + image + ')', height: wrapperStyle.height + 'px' } " >
+      <div class="chart" v-bind:style="{ width: chartStyle.width + 'px', height: chartStyle.height + 'px', 'padding-top': chartStyle.top + 'px'}" >
+        <apexchart  type=bar :options="chartOptions" :height="chartSvgStyle.height" :series="series" v-if="showDiagramm"/>
       </div>
+      <resize-observer @notify="handleResize" />
+     </div>
+      <span>{{date}}</span>
   </div>
+  
 </template>
 
 <script>
+import Vue from 'vue'
 
 import axios from 'axios'
+import store from './../store'
 //import Vue from 'vue'
 import VueApexCharts from 'vue-apexcharts'
+
+import 'vue-resize/dist/vue-resize.css'
+import VueResize from 'vue-resize'
+
+Vue.use(VueResize)
+
 export default {
   name: 'MoodChart',
   props: {
@@ -24,10 +36,29 @@ export default {
       image: './img/soule_bottle.png',
       series: [],
       date: null,
+      showDiagramm: false,
+      wrapperStyle:{
+        height: 0
+      },
+      chartStyle: {
+        width: 100,
+        height: 100,
+        left: 0,
+        top: 0
+      },
+      chartSvgStyle: {
+        height: 100
+      },
       chartOptions: {
         chart: {
           stacked: true,
-          stackType: '100%'
+          stackType: '100%',
+          height: '454px',
+          offsetX: 0,
+          offsetY: 0,
+          toolbar: {
+            show: false
+          }
         },
         dataLabels: {
           style: {
@@ -63,15 +94,71 @@ export default {
     }
   },
   created(){
-    this.getMoodPicture()
+    this.getIdentity()
+    // eslint-disable-next-line
+    .then(_ => {
+      this.getMoodPicture()
+    })
+    // eslint-disable-next-line
+    .catch(_ => {})
+    
+  },
+  mounted (){
+    this.defineStyleAndSizes();
   },
   components: {
         apexchart: VueApexCharts,
   },
   methods: {
+    handleResize: function(){
+      this.defineStyleAndSizes();
+    },
+    defineStyleAndSizes: function(){
+
+      //ToDo Irgendwas stimmt da noch nicht oder ergibt keinen Sinn!
+      const factorHeight = 2.895136778;
+      //const factorTop = 0.358005249;
+      const factorTop = 0.33;
+      //const factorBottom = 0.955380577;
+      const factorBottom = 1;
+      
+      const {
+        width,
+        // eslint-disable-next-line
+        _
+      } = this.$refs.wrapper.getBoundingClientRect();
+
+      let height = width*factorHeight
+      this.wrapperStyle.height = height
+      const top = height * factorTop
+      const bottom = height - height * factorBottom
+      this.chartSvgStyle.height = height - top - bottom
+      
+      height -= top
+    
+      this.chartStyle.width = width
+      this.chartStyle.height = height
+      this.chartStyle.top = top
+      this.showDiagramm = true
+    },
+    getIdentity: function(){
+      const u = store.getters['user/get']
+      if(u === null){
+        //init first
+        window.location.replace('/emotoui/#')
+        return Promise.reject()
+      }else{
+        this.user = u
+        return Promise.resolve()
+      }
+    },
     getMoodPicture: function(){
       this.loaded = false
-      axios.get('http://localhost:3000/mood?id=' + this.moodPictureId)
+      axios.get('http://localhost:3000/mood?id=' + this.moodPictureId, {
+          headers: {
+            'X-EMOTO-USER': this.user
+          }
+        })
       .then(response => {
         switch(response.status){
           case 200: {    
@@ -99,7 +186,11 @@ export default {
                   this.errorState = error.response.status
                 }
       })
+    },
+    calculateSizes: function(){
+
     }
+
   }
 }
 
@@ -107,11 +198,10 @@ export default {
 
 
 <style scoped>
-div.chart{
+div.wrapper{
   background-repeat: no-repeat;
   background-size: contain;
-  height:400px;
-  padding-top:100px;
-  padding-left:100px;
+  background-position: center;  
 }
+
 </style>

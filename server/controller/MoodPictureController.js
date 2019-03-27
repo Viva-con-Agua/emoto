@@ -64,7 +64,7 @@ class MoodPicutreController{
   }
 
   static getMoodPictureById(userId,id){
-    return models.MoodPicture.find({
+    return models.MoodPicture.findOne({
       where: {
         userId: userId,
         id: id
@@ -127,8 +127,8 @@ class MoodPicutreController{
   }
 
   static getLastMoodPicture(userId){
-    let moodPicture = null;
-    return models.MoodPicture.find({
+    return models.MoodPicture.findOne({
+      attributes: ['id'],
       where: {
         userId: userId
       },
@@ -138,6 +138,20 @@ class MoodPicutreController{
     })
     .then(function(result){
       return MoodPictureHelper.getMoodsForMoodPicture(result.dataValues);
+    })
+    .catch(function(err){
+      console.log(err);
+    });
+  }
+
+  static getLastMoodPictureId(userId){
+    return models.MoodPicture.findOne({
+      where: {
+        userId: userId
+      },
+      order: [
+        ['date', 'DESC']
+      ]
     })
     .catch(function(err){
       console.log(err);
