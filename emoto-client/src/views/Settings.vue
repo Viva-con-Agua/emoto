@@ -26,8 +26,6 @@
 
 <script>
 
-import Vue from 'vue'
-
 export default {
   name: 'Settings',
   data() {
@@ -42,6 +40,9 @@ export default {
     reset: function(){
       this.form.content = false;
       this.form.statistic = false;
+    },
+    onSubmit: function(){
+      return;
     }
   }
 }
