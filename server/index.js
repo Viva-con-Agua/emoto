@@ -197,7 +197,6 @@ app.get('/crewmoods', function (req, res) {
 });
 
 app.post('/settings', function(req, res){
-  console.log(req.user);
   return Promise.resolve()
   .then(function(){
     if(req.body.statisticalAnalysis === undefined 
@@ -221,6 +220,13 @@ app.post('/settings', function(req, res){
     return res.status(500).send({'error': err.message});
   });
 });
+
+app.get('/user', function(req, res){
+  return UserController.find(req.user)
+  .then(function(u){
+    return res.send(u);
+  });
+})
 
 app.listen(PORT, HOST, function () {
   console.log('Example app listening on port 3000!');

@@ -18,6 +18,14 @@ class UserController{
     });
   }
 
+  static find(userId){
+    return models.User.findOne({
+      where: {
+        id: userId
+      }
+    });
+  }
+
   static setSettings(userId, settings){
     return models.User.find({ where: { id: userId } })
     .then(function(u){

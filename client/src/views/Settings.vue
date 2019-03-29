@@ -94,6 +94,9 @@ export default {
         statisticalAnalysis : false,
         contentAnalysis: false
       },
+      //stored values, needed for form reset
+      statisticalAnalysis: false,
+      contentAnalysis: false,
       user: null,
       dialogSuccessVisible: false,
       dialogErrorVisible: false,
@@ -101,7 +104,11 @@ export default {
     }
   },
   created () {
+    
     this.getIdentity()
+    .then(_ => {
+      this.getCurrentSettings()
+    })
     // eslint-disable-next-line
     .catch(_ => {})
   },
@@ -117,9 +124,30 @@ export default {
         return Promise.resolve()
       }
     },
+    getCurrentSettings: function(){
+      axios.get('/emotobackend/user', {
+        headers: {
+          'X-EMOTO-USER': this.user
+        }
+      })
+      .then(response => {
+        if(response.status === 200){
+          this.form.statisticalAnalysis = response.data.statisticalAnalysis;
+          this.form.contentAnalysis = response.data.contentAnalysis;
+          this.statisticalAnalysis = response.data.statisticalAnalysis;
+          this.contentAnalysis = response.data.contentAnalysis;
+        }else{
+          throw new Error(response.data)
+        }
+      })
+       .catch((err) => {
+        this.error=err.response.data.error;
+        this.dialogErrorVisible = true;
+      });
+    },
     reset: function(){
-      this.form.statisticalAnalysis = false;
-      this.form.contentAnalysis = false;
+      this.form.statisticalAnalysis = this.statisticalAnalysis;
+      this.form.contentAnalysis = this.contentAnalysis;
     },
     onSubmit: function(){
       axios.post('/emotobackend/settings', this.form, {
@@ -129,6 +157,8 @@ export default {
       })
       .then(response => {
         if(response.status === 200){
+          this.statisticalAnalysis = response.data.statisticalAnalysis;
+          this.contentAnalysis = response.data.contentAnalysis;
           this.dialogSuccessVisible = true;
         }else{
           this.dialogErrorVisible = true;
