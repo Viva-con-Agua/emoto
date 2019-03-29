@@ -1,10 +1,14 @@
 <template>
   <div class="MoodCourse"> 
     <h1>Stimmungsverlauf</h1>
-    <el-row>
-      <el-col :span="2"><button :disabled='offset === 0'  v-on:click="left">Neuere</button></el-col>
-      <el-col :span="7" v-for="(id, index) in moodPictureIds" :key="index"><div id="link-container" @click="openMoodPictureDialog(id)"> <mood-chart  :mood-picture-id="id" :key="reload"/></div></el-col>
-      <el-col :span="1"><button :disabled=" offset >= (count - quantity)"  v-on:click="right">Ältere</button></el-col>
+    <el-row class="wrapper">
+      <el-col :span="3" class="arrow">
+        <el-button class="arrow" v-on:click="left()" :disabled='offset === 0' icon="el-icon-caret-left"></el-button>
+      </el-col>
+      <el-col :span="6" v-for="(id, index) in moodPictureIds" :key="index"><div id="link-container" @click="openMoodPictureDialog(id)"> <mood-chart  :mood-picture-id="id" :key="reload"/></div></el-col>
+      <el-col :span="3" class="arrow">
+        <el-button class="arrow" v-on:click="right()" :disabled=" offset >= (count - quantity)" icon="el-icon-caret-right"></el-button>
+      </el-col>
       <el-dialog
       title="Stimmungsbild"
       :visible.sync="dialogMoodPicture"
@@ -106,11 +110,21 @@ export default {
 </script>
 
 <style scoped>
-p.arrow{
-  font-size: 50px;
-}
-
 #link-container{
   cursor: pointer; 
+}
+
+div.wrapper{
+  display:flex;
+}
+div.arrow{
+  flex: 1;
+}
+
+button.arrow{
+  height: 100%;
+  font-size: 40px;
+  margin: 0;
+  padding: 0;
 }
 </style>
