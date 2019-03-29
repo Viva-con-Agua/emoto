@@ -110,7 +110,7 @@ export default {
       const u = store.getters['user/get']
       if(u === null){
         //init first
-        window.location.replace('/emotoui/#')
+        window.location.replace('/emoto/#')
         return Promise.reject()
       }else{
         this.user = u
@@ -122,7 +122,7 @@ export default {
       this.form.contentAnalysis = false;
     },
     onSubmit: function(){
-      axios.post('http://localhost:3000/settings', this.form, {
+      axios.post('/emotobackend/settings', this.form, {
           headers: {
             'X-EMOTO-USER': this.user
           }

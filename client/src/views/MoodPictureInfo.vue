@@ -44,7 +44,7 @@ export default {
       const u = store.getters['user/get']
       if(u === null){
         //init first
-        window.location.replace('/emotoui/#')
+        window.location.replace('/emoto/#')
         return Promise.reject()
       }else{
         this.user = u
@@ -53,7 +53,7 @@ export default {
     },
     validateMoodPictureId: function(){
       if(this.id === -1){
-        return axios.get('http://localhost:3000/lastMoodPictureId', {
+        return axios.get('/emotobackend/lastMoodPictureId', {
           headers: {
             'X-EMOTO-USER': this.user
           }

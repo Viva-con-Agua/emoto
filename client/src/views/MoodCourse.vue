@@ -54,7 +54,7 @@ export default {
       const u = store.getters['user/get']
       if(u === null){
         //init first
-        window.location.replace('/emotoui/#')
+        window.location.replace('/emoto/#')
         return Promise.reject()
       }else{
         this.user = u
@@ -62,7 +62,7 @@ export default {
       }
     },
     getMoodPictureIds: function(){
-      const url ='http://localhost:3000/moods/id?offset='+this.offset+'&quantity='+this.quantity
+      const url ='/emotobackend/moods/id?offset='+this.offset+'&quantity='+this.quantity
       axios.get(url, {
           headers: {
             'X-EMOTO-USER': this.user

@@ -31,7 +31,7 @@ const actions = {
       // sets `state.loading` to true. Show a spinner or something.
       store.commit('API_USER_PENDING')
 
-      return axios.get('http://localhost/drops/webapp/identity', {
+      return axios.get('/drops/webapp/identity', {
         headers: {
           "Access-Control-Allow-Credentials": "true"
         }
@@ -55,7 +55,7 @@ const actions = {
             case 401:
               // Not Authenticated!
               //ToDo use generic uri
-              window.location.replace('/arise/#/signin?redirect=http://localhost/emotoui/#')
+              window.location.replace('/arise/#/signin/L2Vtb3RvLyMvbW9vZC9mb3Jt')
               break;
           case 403:
               // Forbidden!

@@ -161,7 +161,7 @@ export default {
       this.form.mood[index].questionId = getQuestion.questionId
     },
     getMoodInquiry: function(){
-      axios.get('http://localhost:3000/moodInquiry', {
+      axios.get('/emotobackend/moodInquiry', {
           headers: {
             'X-EMOTO-USER': this.user
           }
@@ -218,7 +218,7 @@ export default {
       const u = store.getters['user/get']
       if(u === null){
         //init first
-        window.location.replace('/emotoui/#')
+        window.location.replace('/emoto/#')
         return Promise.reject()
       }else{
         this.user = u
@@ -227,7 +227,7 @@ export default {
     },
     onSubmit: function(){
       const body = this.createRequestBodyFromForm(this.form.mood);
-      axios.post('http://localhost:3000/mood', body)
+      axios.post('/emotobackend/mood', body)
       .then(response => {
         if(response.status === 200){
           this.dialogSuccessVisible = true;

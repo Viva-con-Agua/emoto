@@ -6,7 +6,7 @@
             <p class="subtitle">STIMMUNGSBAROMETER</p>
         </el-col>
         <el-col :span="6">
-          <img src="/emotoui/img/logo.png" class="logo" alt="Logo VcA" />
+          <img src="/emoto/img/logo.png" class="logo" alt="Logo VcA" />
         </el-col>
       </el-row>    
     <el-menu
