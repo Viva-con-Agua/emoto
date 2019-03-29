@@ -52,7 +52,8 @@ export default new Router({
       path : '/signin',
       beforeEnter() {
         // Put the full page url including the protocol http(s) below
-        window.location = "http://localhost/arise/#/signin"
+        //aHR0cDovL2xvY2FsaG9zdC9lbW90b3VpLyMvbW9vZC9mb3Jt = base64(http://localhost/emotoui/#/mood/form)
+        window.location = "http://localhost/arise/#/signin/aHR0cDovL2xvY2FsaG9zdC9lbW90b3VpLyMvbW9vZC9mb3Jt"
       }
     }
   ]

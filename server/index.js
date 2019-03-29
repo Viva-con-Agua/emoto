@@ -11,16 +11,20 @@ const cors = require('cors');
 const validateUUID = require('uuid-validate');
 const morgan = require('morgan');
 
-const QuestionsController = require('./server/controller/QuestionController');
-const AnswerController = require('./server/controller/AnswerController');
-const MoodInquiryController = require('./server/controller/MoodInquiryController');
-const MoodPictureController = require('./server/controller/MoodPictureController');
-const OAuth2Controller = require('./server/controller/OAuth2Controller');
-const UserIdHelper = require('./server/helper/UserIdHelper');
-const MoodPictureHelper = require('./server/helper/MoodPictureHelper');
+const QuestionsController = require('./src/controller/QuestionController');
+const AnswerController = require('./src/controller/AnswerController');
+const MoodInquiryController = require('./src/controller/MoodInquiryController');
+const MoodPictureController = require('./src/controller/MoodPictureController');
+const OAuth2Controller = require('./src/controller/OAuth2Controller');
+const UserController = require('./src/controller/UserController');
+const UserIdHelper = require('./src/helper/UserIdHelper');
+const MoodPictureHelper = require('./src/helper/MoodPictureHelper');
 
 const USER_ID_HEADER_FIELDNAME = 'X-EMOTO-USER'.toLowerCase();
 const CREW_ID_HEADER_FIELDNAME = 'X.EMOTO-CREW'.toLowerCase();
+
+const PORT = 3000;
+const HOST = '0.0.0.0';
 
 app.use(cors());
 app.use(morgan('combined'));
@@ -190,8 +194,33 @@ app.get('/crewmoods', function (req, res) {
   return res.status(501);
 });
 
+app.post('/settings', function(req, res){
+  console.log(req.user);
+  return Promise.resolve()
+  .then(function(){
+    if(req.body.statisticalAnalysis === undefined 
+    || req.body.contentAnalysis === undefined){
+        throw Error('no correct request body');
+      }
+    
+    return Promise.resolve({
+        statisticalAnalysis : req.body.statisticalAnalysis,
+        contentAnalysis: req.body.contentAnalysis
+      });
+  })
+  .then(function(settings){
+    console.log(settings);
+    return UserController.setSettings(req.user, settings);
+  })
+  .then(function(user){
+    return res.send(user);
+  })
+  .catch(function(err){
+    return res.status(500).send({'error': err.message});
+  });
+});
 
-app.listen(3000, function () {
+app.listen(PORT, HOST, function () {
   console.log('Example app listening on port 3000!');
 });
 
