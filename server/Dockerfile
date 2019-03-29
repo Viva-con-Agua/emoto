@@ -11,5 +11,6 @@ RUN npm i --only=production
 # Bundle app source
 COPY . .
 
+CMD ["export", "NODE_ENV=production"]
 EXPOSE 3000
 CMD [ "npm", "start" ]

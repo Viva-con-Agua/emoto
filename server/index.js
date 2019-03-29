@@ -52,11 +52,13 @@ app.use(function(req,res,next){
   }
 });
 
-app.all('/emoto*', function(req, res, next){
-  //http://localhost/emoto/subpath
-  req.url = req.url.replace(/^\/emoto\//, '/');
-  //http://localhost/emoto
-  req.url = req.url.replace(/^\/emoto/, '/');
+app.all('/emotobackend*', function(req, res, next){
+  //http://localhost/emotobackend/subpath
+  req.url = req.url.replace(/^\/emotobackend\//, '/');
+  //http://localhost/emotobackend
+  req.url = req.url.replace(/^\/emotobackend/, '/');
+
+  console.log(req.url);
   return next();
 });
 
