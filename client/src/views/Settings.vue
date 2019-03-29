@@ -106,6 +106,7 @@ export default {
   created () {
     
     this.getIdentity()
+    // eslint-disable-next-line
     .then(_ => {
       this.getCurrentSettings()
     })
