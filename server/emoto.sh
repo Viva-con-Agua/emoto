@@ -23,6 +23,7 @@ emoto_release(){
   ./make-release.sh
 }
 
+## ToDo: Add DB Scripts
 emoto_db_setup_docker (){
   echo "not implemented"
 }
@@ -40,12 +41,15 @@ emoto_db_update_docker (){
 }
 
 case $1 in
-  setup) emoto_db_setup_docker ;;
-  rm) emoto_db_remove_docker ;;
-  log) emoto_db_logs_docker ;;
-  update) emoto_db_update_docker ;;
+  setup) emoto_setup_docker ;;
+  rm) emoto_remove_docker ;;
+  log) emoto_logs_docker ;;
+  update) emoto_update_docker ;;
   db) case $2 in 
       setup) emoto_db_setup_docker ;;
+      rm) emoto_db_remove_docker ;;
+      log) emoto_db_logs_docker ;;
+      update) emoto_db_update_docker ;;
       *)
         echo "Usage: ./emoto.sh db COMMAND"
         echo ""
@@ -56,6 +60,7 @@ case $1 in
         echo "  update   update the emoto database docker container to the latest verion"
     esac;;
   *) 
+    #ToDo: Add db commands
     echo "Usage: ./emoto.sh COMMAND"
     echo ""
     echo "Commands:"
