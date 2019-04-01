@@ -1,7 +1,5 @@
 'use strict';
 
-const models = require('./../src/models');
-
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.addColumn(
@@ -11,12 +9,6 @@ module.exports = {
         type: Sequelize.INTEGER
       }
     )
-    .then(function(){
-      return models.AnswerSet.findAll();
-    })
-    .then(function(answerSets){
-      return queryInterface.sequelize.query("UPDATE Questions SET answerSetId = " + answerSets[0].dataValues.id);
-    })
     .then(function(){
       return queryInterface.addConstraint('Questions', ['answerSetId'], {
         type: 'foreign key',
