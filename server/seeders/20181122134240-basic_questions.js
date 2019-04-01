@@ -5,15 +5,15 @@ module.exports = {
     return queryInterface.bulkInsert('Questions', [
       {
         "question": "Wie ist deine persönliche Stimmung in Bezug auf VcA?",
-        "answerSetId": 0
+        "answerSetId": 1
       },
       {
         "question": "Wie fandest du die letzte Aktion, an der du teilgenommen hast?",
-        "answerSetId": 0
+        "answerSetId": 1
       },
       {
         "question": "Wie ist deiner Meinung nach die aktuelle Stimmung in deiner Crew?",
-        "answerSetId": 0
+        "answerSetId": 1
       }
     ]);
   },
