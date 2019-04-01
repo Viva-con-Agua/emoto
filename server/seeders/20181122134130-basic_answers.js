@@ -1,6 +1,6 @@
 'use strict';
 
-const models = require('./../server/models');
+const models = require('./../src/models');
 
 
 module.exports = {
