@@ -45,6 +45,7 @@ case $1 in
   rm) emoto_remove_docker ;;
   log) emoto_logs_docker ;;
   update) emoto_update_docker ;;
+  release) emoto_release ;;
   db) case $2 in 
       setup) emoto_db_setup_docker ;;
       rm) emoto_db_remove_docker ;;
