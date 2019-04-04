@@ -1,7 +1,8 @@
 <template>
   <div class="MoodCourse"> 
     <h1>Stimmungsverlauf</h1>
-    <el-row class="wrapper">
+    <p v-if="noMoodPictures"><b>Hinweis: </b> Aktuell liegt noch kein Stimmungsbild von dir vor!</p>
+    <el-row class="wrapper" v-if="!noMoodPictures">
       <el-col :span="3" class="arrow">
         <el-button class="arrow" v-on:click="left()" :disabled='offset === 0' icon="el-icon-caret-left"></el-button>
       </el-col>
@@ -26,6 +27,8 @@
 
 import axios from 'axios'
 import store from './../store'
+import router from './../router'
+
 import MoodChart from '@/components/MoodChart'
 import MoodPicture from '@/components/MoodPicture'
 
@@ -41,6 +44,7 @@ export default {
       user: null,
       crew: null,
       dialogMoodPicture: false,
+      noMoodPictures: true,
       dialogId: 0
     }
   },
@@ -81,12 +85,17 @@ export default {
         switch(response.status){
           case 200: {  
             this.moodPictureIds = []
-            for (var i = 0; i < response.data.id.length; i++) {
-              this.$set(this.moodPictureIds, i, response.data.id[i])
+            if(response.data.id.length > 0){
+              for (var i = 0; i < response.data.id.length; i++) {
+                this.$set(this.moodPictureIds, i, response.data.id[i])
+              }
+              
+              this.count = response.data.count
+              this.noMoodPictures = false
+              this.reload++
+            }else{
+              this.noMoodPictures = true
             }
-            
-            this.count = response.data.count
-            this.reload++
             break;
           }
         }

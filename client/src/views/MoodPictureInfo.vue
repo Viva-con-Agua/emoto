@@ -2,6 +2,7 @@
   <div class="MoodPictureInfo"> 
     <h1>Stimmungsbild</h1>
     <h2>{{date}}</h2>
+    <p v-if="noMoodPicture"><b>Hinweis: </b> Aktuell liegt noch kein Stimmungsbild von dir vor!</p>
     <mood-picture :mood-picture-id="moodPictureId" v-if="showMoodPicture"/>
     
   </div>
@@ -11,6 +12,7 @@
 
 import axios from 'axios'
 import store from './../store'
+import router from './../router'
 
 import MoodPicture from '@/components/MoodPicture'
 export default {
@@ -35,7 +37,8 @@ export default {
       showMoodPicture: false,
       moodPictureId: 0,
       user: null,
-      crew: null
+      crew: null,
+      noMoodPicture: true
     }
   },
   created(){
@@ -58,7 +61,7 @@ export default {
 
       if(u === null){
         //init first
-        window.location.replace('/emoto/#')
+        router.push({name: 'Landing Page'})
         return Promise.reject()
       }else{
         this.user = u
@@ -77,15 +80,18 @@ export default {
         .then(response => {
           switch(response.status){
             case 200:
-              this.moodPictureId = response.data.id
-              this.showMoodPicture = true;
+              if (response.data !== ''){
+                this.moodPictureId = response.data.id
+                this.noMoodPicture = false;
+                this.showMoodPicture = true;
+              }
               return
             }
           })
         .catch(error => {
            switch(error.response.status){
              case 401:
-              window.location.replace('/emoto')
+              
               return
            }
         })
