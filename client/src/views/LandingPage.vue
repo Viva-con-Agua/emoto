@@ -1,6 +1,13 @@
 <template>
   <div class="LandingPage" v-loading.fullscreen.lock="pending">
-    <info v-if="!pending && access"/>
+     <el-row class="wrapper">
+      <el-col :span="16">
+        <info v-if="!pending && access"/>
+      </el-col>
+      <el-col class="img" :span="8" >
+        <img src="/emoto/img/mood_sample.png" />
+      </el-col>
+    </el-row>
     <privacy-settings v-if="!pending && access"
       submit-btn = "Ich habe alles gelesen und möchte mit EMOTO starten!"
       v-bind:user-required="false"
@@ -83,5 +90,9 @@ export default {
 <style scoped>
 p {
   text-align:left;
+}
+
+div.img {
+  padding-top: 100px;
 }
 </style>
