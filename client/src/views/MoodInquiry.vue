@@ -232,7 +232,12 @@ export default {
     },
     onSubmit: function(){
       const body = this.createRequestBodyFromForm(this.form.mood);
-      axios.post('/emotobackend/mood', body)
+      axios.post('/emotobackend/mood', body,
+        {
+          headers: {
+            'X-EMOTO-USER': this.user
+          }
+        })
       .then(response => {
         if(response.status === 200){
           this.dialogSuccessVisible = true;
