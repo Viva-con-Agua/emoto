@@ -2,7 +2,7 @@
 
 const models = require('./../models');
 
-const DEFAULT_ANSWER_SET = 2;
+const DEFAULT_ANSWER_SET = 1;
 
 class QuestionController{
   static getAllPublic(){
