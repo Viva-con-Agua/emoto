@@ -10,6 +10,7 @@
         </el-col>
       </el-row>    
     <el-menu
+      v-if='$route.name !== "Landing Page"'
       :default-active="activeIndex"
       :router=true
       class="el-menu-demo"
@@ -30,16 +31,21 @@
 
 //import axios from 'axios'
 import store from './store'
+//import router from './router'
+
 export default {
   name: 'app',
   data() {
     return {
-      activeIndex: 'form',
-      userId: 'test'
+      activeIndex: '/mood/form',
+      currentView: ''
     };
   },
   created(){
     this.getIdentity()
+  },
+  updated(){
+   
   },
   methods: {
     getIdentity: function(){

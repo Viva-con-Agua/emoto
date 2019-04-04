@@ -5,7 +5,7 @@
         <info v-if="!pending && access"/>
       </el-col>
       <el-col class="img" :span="8" >
-        <img src="/emoto/img/mood_sample.png" />
+        <img v-if="!pending && access" src="/emoto/img/mood_sample.png" />
       </el-col>
     </el-row>
     <privacy-settings v-if="!pending && access"
