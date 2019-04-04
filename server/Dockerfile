@@ -11,9 +11,5 @@ RUN npm i --only=production
 # Bundle app source
 COPY . .
 
-RUN export NODE_ENV=production
-RUN node_modules/.bin/sequelize db:migrate
-RUN node_modules/.bin/sequelize db:seed:all
-
 EXPOSE 3000
 CMD [ "npm", "start" ]
