@@ -23,7 +23,7 @@ export default new Router({
     },
     {
       path : '/mood/last',
-      name : 'Mood Picture',
+      name : 'Last Mood Picture',
       component: MoodPictureInfo,
       props: true
     },
