@@ -11,17 +11,36 @@ class UserController{
       defaults: {
         crewDropsId: crewId,
         statisticalAnalysis: false,
-        contentAnalysis: false
+        contentAnalysis: false,
+        active: false
       }
     }).then(function(user){
       return Promise.resolve(user[0]);
     });
   }
 
-  static find(userId){
+  static create(userId, crewId){
+    return models.User.create({
+      crewDropsId: crewId,
+      userDropsId: userId,
+      statisticalAnalysis: false,
+      contentAnalysis: false,
+      active: false
+    });
+  }
+
+  static find(userId, crewId){
     return models.User.findOne({
       where: {
         id: userId
+      }
+    });
+  }
+
+  static findByDropsId(userDropsId){
+    return models.User.findOne({
+      where: {
+        userDropsId: userDropsId
       }
     });
   }
@@ -31,11 +50,11 @@ class UserController{
     .then(function(u){
       return u.update({
         statisticalAnalysis: settings.statisticalAnalysis,
-        contentAnalysis: settings.contentAnalysis
+        contentAnalysis: settings.contentAnalysis,
+        active: true
       });
     })
     .then(function(u){
-      console.log(u);
       return Promise.resolve(u);
     });
   }

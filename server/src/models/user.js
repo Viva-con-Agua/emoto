@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     crewDropsId: DataTypes.UUID,
     userDropsId: DataTypes.UUID,
     statisticalAnalysis: DataTypes.BOOLEAN,
-    contentAnalysis: DataTypes.BOOLEAN
+    contentAnalysis: DataTypes.BOOLEAN,
+    active: DataTypes.BOOLEAN
   }, {});
   User.associate = function(models) {
     User.hasMany(models.Question);

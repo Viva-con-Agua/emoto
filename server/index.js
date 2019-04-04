@@ -51,21 +51,7 @@ app.use(bodyparser.urlencoded({
 
 app.use(cookieParser());
 
-app.use(function(req,res,next){
-  if(req.headers[USER_ID_HEADER_FIELDNAME]){
-    const id = req.headers[USER_ID_HEADER_FIELDNAME];
-    if(!validateUUID(id)){
-      return res.status(500).send({'error': 'invalid data type for user id'});
-    }
-    return UserIdHelper.translateId(id)
-    .then(function(internalID){
-      req.user = internalID;
-      next();
-    });
-  }else{
-    next();
-  }
-});
+
 
 app.all('/emotobackend*', function(req, res, next){
   //http://localhost/emotobackend/subpath
@@ -77,26 +63,117 @@ app.all('/emotobackend*', function(req, res, next){
   return next();
 });
 
+///////////////////
+// public routes //
+///////////////////
+
+
 app.get('/', function (req, res) {
   return res.send('emoto is running');
 });
 
-//ToDo: Test Call with Cookies
-//Not in use currently
-app.get('/identity', function (req, res) {
-  return axios.get('http://localhost/drops/webapp/identity',{withCredentials: true})
-  .then(function(response){
-    console.log("SUCCESS");
-    return res.send(response);
+app.post('/user/access', function(req,res){  
+  const id = req.body.userId;
+  const email = req.body.email;
+  if(id === undefined || email === undefined){
+    return res.status(500).send({'error': 'parameter userId and email required'});
+  }
+
+  return UserController.findByDropsId(id)
+  .then(function(u){
+    if(u !== null){
+      return res.send({
+        access: true,
+        active: u.active
+      });
+    }else{
+      return CRMHelper.validateAccess(email)
+      .then(function(a){
+        console.log(a);
+        if(a){
+          return UserController.create(id, null)
+          .then(function(){
+            return res.send({
+              access: true,
+              active: false
+            });
+          });
+        }else{
+          return res.send({
+            access: false,
+            active: false
+          });
+        }
+      });
+    }
   })
   .catch(function(err){
-    console.log("ERROR");
-    console.log(err.request.cookies);
-    return res.status(err.response.status).send(err.response.data);
+    console.log(err.toString());
+    return res.status(500).send({'error': 'internal server error'});
   });
 });
 
-//Query Param id is optional
+/////////////////////////////////////
+// routes which need a internal id //
+/////////////////////////////////////
+
+app.use(function(req,res,next){
+  if(req.headers[USER_ID_HEADER_FIELDNAME]){
+    const id = req.headers[USER_ID_HEADER_FIELDNAME];
+    if(!validateUUID(id)){
+      return res.status(500).send({'error': 'invalid data type for user id'});
+    }
+    return UserIdHelper.translateId(id)
+    .then(function(u){
+      console.log(u);
+      req.user = u.id;
+      req.active = u.active;
+      next();
+    })
+    .catch(function(err){
+      return res.status(401).send({'error': err.toString()});
+    });
+  }else{
+    next();
+  }
+});
+
+app.post('/settings', function(req, res){
+  return Promise.resolve()
+  .then(function(){
+    if(req.body.statisticalAnalysis === undefined 
+    || req.body.contentAnalysis === undefined){
+        throw Error('no correct request body');
+      }
+    
+    return Promise.resolve({
+        statisticalAnalysis : req.body.statisticalAnalysis,
+        contentAnalysis: req.body.contentAnalysis
+      });
+  })
+  .then(function(settings){   
+    return UserController.setSettings(req.user, settings);
+  })
+  .then(function(user){
+    return res.send(user);
+  })
+  .catch(function(err){
+    return res.status(500).send({'error': err.message});
+  });
+});
+
+///////////////////////////////////////////////
+// protected internal routes for active user //
+///////////////////////////////////////////////
+
+app.use(function(req, res ,next){
+  if(req.active){
+    return next();
+  }else{
+    return res.status(401).send({'error': 'user not active'});
+  }
+});
+
 app.get('/mood', function (req, res) {
   const id = req.query.id || undefined;
   if(!!id){
@@ -211,37 +288,14 @@ app.get('/crewmoods', function (req, res) {
   return res.status(501);
 });
 
-app.post('/settings', function(req, res){
-  return Promise.resolve()
-  .then(function(){
-    if(req.body.statisticalAnalysis === undefined 
-    || req.body.contentAnalysis === undefined){
-        throw Error('no correct request body');
-      }
-    
-    return Promise.resolve({
-        statisticalAnalysis : req.body.statisticalAnalysis,
-        contentAnalysis: req.body.contentAnalysis
-      });
-  })
-  .then(function(settings){
-    console.log(settings);
-    return UserController.setSettings(req.user, settings);
-  })
-  .then(function(user){
-    return res.send(user);
-  })
-  .catch(function(err){
-    return res.status(500).send({'error': err.message});
-  });
-});
+
 
 app.get('/user', function(req, res){
   return UserController.find(req.user)
   .then(function(u){
     return res.send(u);
   });
-})
+});
 
 app.listen(PORT, HOST, function () {
   console.log('Example app listening on port 3000!');
