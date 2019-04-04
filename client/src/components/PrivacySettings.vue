@@ -11,14 +11,16 @@
     </p>
 
     <p>Meine Daten dürfen genutzt werden für: </p>
-    <el-form ref="form" :model="form">
-      <el-form-item label="Anonymisierte statische Auswertungen">
-        <el-switch v-model="form.statisticalAnalysis"></el-switch>
-      </el-form-item>
-      <el-form-item label="Anonymisierte inhaltliche Auswertung">
-        <el-switch v-model="form.contentAnalysis"></el-switch>
-      </el-form-item>
-    
+      <el-form ref="form" :model="form">
+    <p class="left">
+      <el-form-item>
+        <el-checkbox v-model="form.statisticalAnalysis">Anonymisierte statische Auswertungen</el-checkbox>
+        <el-form-item>
+
+        </el-form-item>
+        <el-checkbox v-model="form.contentAnalysis">Anonymisierte inhaltliche Auswertung</el-checkbox>
+      </el-form-item>    
+    </p>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">{{this.submitBtn}}</el-button>
         <el-button v-if="resetBtn" @click="reset">Zurücksetzen</el-button>
@@ -190,5 +192,9 @@ export default {
 <style scoped>
 p {
   text-align:left;
+}
+
+p.left{
+  text-align: left;
 }
 </style>

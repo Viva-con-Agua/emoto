@@ -104,7 +104,7 @@ export default {
     },
     showNotification() {
         this.$notify({
-          title: 'Year!',
+          title: 'Yeah!',
           message: 'Deine Sitmmung wurde gespeichert!',
           type: 'success'
         });
