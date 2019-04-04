@@ -74,6 +74,7 @@ app.get('/', function (req, res) {
 app.post('/user/access', function(req,res){  
   const id = req.body.userId;
   const email = req.body.email;
+  const crewId = req.body.crewId || null;
   if(id === undefined || email === undefined){
     return res.status(500).send({'error': 'parameter userId and email required'});
   }
@@ -89,7 +90,7 @@ app.post('/user/access', function(req,res){
       return CRMHelper.validateAccess(email)
       .then(function(a){
         if(a){
-          return UserController.create(id, null)
+          return UserController.create(id, crewId)
           .then(function(){
             return res.send({
               access: true,
@@ -118,14 +119,16 @@ app.post('/user/access', function(req,res){
 app.use(function(req,res,next){
   if(req.headers[USER_ID_HEADER_FIELDNAME]){
     const id = req.headers[USER_ID_HEADER_FIELDNAME];
+    const crew = req.headers[CREW_ID_HEADER_FIELDNAME];
     if(!validateUUID(id)){
       return res.status(500).send({'error': 'invalid data type for user id'});
     }
-    return UserIdHelper.translateId(id)
+    return UserIdHelper.translateId(id, crew)
     .then(function(u){
       req.user = u.id;
       req.active = u.active;
-      return next();
+      next();
+      return Promise.resolve();
     })
     .catch(function(err){
       return res.status(401).send({'error': err.toString()});

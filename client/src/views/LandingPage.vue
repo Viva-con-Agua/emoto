@@ -50,6 +50,7 @@ export default {
       .then(response => {
           this.userId = response.data.additional_information.id;
           this.email = response.data.additional_information.profiles[0].email;
+          this.crewId = response.data.additional_information.profiles[0].supporter.crew.id;
       })
     },
     validateAccess(){
