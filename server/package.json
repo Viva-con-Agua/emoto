@@ -1,6 +1,6 @@
 {
   "name": "emoto",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a mood berometer for crew and personal mood",
   "main": "index.js",
   "scripts": {
