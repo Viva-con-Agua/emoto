@@ -39,6 +39,7 @@ export default {
       reload: 0,
       quantity: 3,
       user: null,
+      crew: null,
       dialogMoodPicture: false,
       dialogId: 0
     }
@@ -56,12 +57,15 @@ export default {
   methods: {
     getIdentity: function(){
       const u = store.getters['user/get']
+      const c = store.getters['user/crew']
+
       if(u === null){
         //init first
         window.location.replace('/emoto/#')
         return Promise.reject()
       }else{
         this.user = u
+        this.crew = c
         return Promise.resolve()
       }
     },
@@ -69,7 +73,8 @@ export default {
       const url ='/emotobackend/moods/id?offset='+this.offset+'&quantity='+this.quantity
       axios.get(url, {
           headers: {
-            'X-EMOTO-USER': this.user
+            'X-EMOTO-USER': this.user,
+            'X-EMOTO-CREW': this.crew
           }
         })
       .then(response => {

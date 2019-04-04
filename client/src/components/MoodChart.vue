@@ -37,6 +37,8 @@ export default {
       series: [],
       date: null,
       showDiagramm: false,
+      user: null,
+      crew: null,
       wrapperStyle:{
         height: 0
       },
@@ -143,12 +145,15 @@ export default {
     },
     getIdentity: function(){
       const u = store.getters['user/get']
+      const c = store.getters['user/crew']
+
       if(u === null){
         //init first
         window.location.replace('/emoto/#')
         return Promise.reject()
       }else{
         this.user = u
+        this.crew = c
         return Promise.resolve()
       }
     },
@@ -157,7 +162,8 @@ export default {
       //work with relative path= backend/emoto/mood?id
       axios.get('/emotobackend/mood?id=' + this.moodPictureId, {
           headers: {
-            'X-EMOTO-USER': this.user
+            'X-EMOTO-USER': this.user,
+            'X-EMOTO-CREW': this.crew
           }
         })
       .then(response => {

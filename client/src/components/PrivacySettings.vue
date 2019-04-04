@@ -92,6 +92,7 @@ export default {
       statisticalAnalysis: false,
       contentAnalysis: false,
       user: null,
+      crew: null,
       dialogSuccessVisible: false,
       dialogErrorVisible: false,
       error: null
@@ -114,19 +115,22 @@ export default {
   methods: {
      getIdentity: function(){
       const u = store.getters['user/get']
+      const c = store.getters['user/crew']
       if(u === null){
         //init first
         window.location.replace('/emoto/#')
         return Promise.reject()
       }else{
         this.user = u
+        this.crew = c
         return Promise.resolve()
       }
     },
     getCurrentSettings: function(){
       axios.get('/emotobackend/user', {
         headers: {
-          'X-EMOTO-USER': this.user
+          'X-EMOTO-USER': this.user,
+          'X-EMOTO-CREW': this.crew
         }
       })
       .then(response => {
@@ -156,7 +160,8 @@ export default {
     onSubmit: function(){
       axios.post('/emotobackend/settings', this.form, {
           headers: {
-            'X-EMOTO-USER': this.user
+            'X-EMOTO-USER': this.user,
+            'X-EMOTO-CREW': this.crew
           }
       })
       .then(response => {

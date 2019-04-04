@@ -1,4 +1,4 @@
-import axios from 'axios'
+  import axios from 'axios'
 
 const state = {
   user: null,
@@ -43,10 +43,12 @@ const actions = {
             user: response.data.additional_information.id,
             crew: null
           }
+
+          store.commit('API_USER_SUCCESS', data.user)
           if(response.data.additional_information.profiles[0].supporter.crew){
             data.crew = response.data.additional_information.profiles[0].supporter.crew.id;
+            store.commit('API_CREW_SUCCESS', data.crew)
           }
-          store.commit('API_USER_SUCCESS', data.user, data.crew)
       })
       .catch(error => {
           // set `state.loading` to false and do something with error
@@ -80,17 +82,19 @@ const mutations = {
       state.pending = true
       state.error = null
   },
-  API_USER_SUCCESS(state, user, crew) {
-      state.user = user
-      state.crew = crew
-      state.pending = false
-      state.error = null
+  API_USER_SUCCESS(state, user) {
+    state.user = user
+    state.pending = false
+    state.error = null
+  },
+  API_CREW_SUCCESS(state, crew) {
+    state.crew = crew
   },
   API_USER_FAILURE(state, error) {
-      state.user = null
-      state.crew = null
-      state.pending = false
-      state.error = error
+      state.user = null;
+      state.crew = null;
+      state.pending = false;
+      state.error = error;
   }
 }
 
@@ -101,3 +105,4 @@ export default {
   actions,
   mutations
 };
+

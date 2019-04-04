@@ -66,7 +66,8 @@ export default {
       moods: {},
       date: null,
       showMoodPicture: false,
-      user: null
+      user: null,
+      crew: null
     }
   },
   created(){
@@ -81,19 +82,23 @@ export default {
   methods: {
     getIdentity: function(){
       const u = store.getters['user/get']
+      const c = store.getters['user/crew']
+
       if(u === null){
         //init first
         window.location.replace('/emoto/#')
         return Promise.reject()
       }else{
         this.user = u
+        this.crew = c
         return Promise.resolve()
       }
     },
     getMoodPicture: function(){
       axios.get('/emotobackend/mood?id=' + this.moodPictureId, {
           headers: {
-            'X-EMOTO-USER': this.user
+            'X-EMOTO-USER': this.user,
+            'X-EMOTO-CREW': this.crew
           }
         })
       .then(response => {

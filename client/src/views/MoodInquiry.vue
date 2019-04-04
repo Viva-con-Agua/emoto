@@ -129,6 +129,7 @@ export default {
         mood: Array
       },
       user: null,
+      crew: null,
       dialogSuccessVisible: false,
       dialogErrorVisible: false,
       error: null
@@ -163,7 +164,8 @@ export default {
     getMoodInquiry: function(){
       axios.get('/emotobackend/moodInquiry', {
           headers: {
-            'X-EMOTO-USER': this.user
+            'X-EMOTO-USER': this.user,
+            'X-EMOTO-CREW': this.crew
           }
         })
         .then(response => {
@@ -221,12 +223,15 @@ export default {
     //ToDo add crew
     getIdentity: function(){
       const u = store.getters['user/get']
+      const c = store.getters['user/crew']
+
       if(u === null){
         //init first
         //window.location.replace('/emoto/#')
         return Promise.reject()
       }else{
         this.user = u
+        this.crew = c
         return Promise.resolve()
       }
     },
@@ -235,7 +240,8 @@ export default {
       axios.post('/emotobackend/mood', body,
         {
           headers: {
-            'X-EMOTO-USER': this.user
+            'X-EMOTO-USER': this.user,
+            'X-EMOTO-CREW': this.crew
           }
         })
       .then(response => {
