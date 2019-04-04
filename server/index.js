@@ -10,6 +10,9 @@ const axios = require('axios');
 const cors = require('cors');
 const validateUUID = require('uuid-validate');
 const morgan = require('morgan');
+const path = require('path');
+const rfs = require('rotating-file-stream');
+var fs = require('fs');
 
 const QuestionsController = require('./src/controller/QuestionController');
 const AnswerController = require('./src/controller/AnswerController');
@@ -19,16 +22,28 @@ const OAuth2Controller = require('./src/controller/OAuth2Controller');
 const UserController = require('./src/controller/UserController');
 const UserIdHelper = require('./src/helper/UserIdHelper');
 const MoodPictureHelper = require('./src/helper/MoodPictureHelper');
+const CRMHelper = require('./src/helper/CRMHelper');
 
 const USER_ID_HEADER_FIELDNAME = 'X-EMOTO-USER'.toLowerCase();
-const CREW_ID_HEADER_FIELDNAME = 'X.EMOTO-CREW'.toLowerCase();
+const CREW_ID_HEADER_FIELDNAME = 'X-EMOTO-CREW'.toLowerCase();
 
 const PORT = 3000;
 const HOST = '0.0.0.0';
 
-app.use(cors());
-app.use(morgan('combined'));
+const logDirectory = path.join(__dirname, 'log');
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 
+// create a rotating write stream
+var accessLogStream = rfs('access.log', {
+  interval: '1d', // rotate daily
+  path: logDirectory
+})
+ 
+// setup the logger
+app.use(morgan('combined', { stream: accessLogStream }))
+
+
+app.use(cors());
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({
   extended: false
