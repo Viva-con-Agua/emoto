@@ -2,7 +2,20 @@
 
 emoto_setup_docker(){  
   #Add EMOTO MariaDB
-  docker run --name emoto-docker --restart=unless-stopped -d vivaconagua/emoto:latest;
+  emoto_setup_log_storage
+  docker run \
+    --name emoto-docker \
+    --restart=unless-stopped \
+    --mount source=emoto-log,destination=/usr/local/src/emoto/log \
+    -d vivaconagua/emoto:latest 
+}
+
+emoto_setup_log_storage(){
+  docker volume create emoto-log
+}
+
+emoto_rm_log_storage(){
+  docker volume rm emoto-log
 }
 
 emoto_remove_docker(){
@@ -46,6 +59,16 @@ case $1 in
   log) emoto_logs_docker ;;
   update) emoto_update_docker ;;
   release) emoto_release ;;
+  storage) case $2 in
+      setup) emoto_setup_log_storage ;;
+      rm) emoto_rm_log_storage ;;
+      *)
+        echo "Usage: ./emoto.sh log COMMAN"
+        echo ""
+        echo "Commands:"
+        echo "  setup    setup a docker volume for emoto log files"
+        echo "  rm       delete the docker volume for emoto log files"
+    esac;;
   db) case $2 in 
       setup) emoto_db_setup_docker ;;
       rm) emoto_db_remove_docker ;;

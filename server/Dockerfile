@@ -7,7 +7,7 @@ COPY package*.json ./
 #RUN npm install
 # If you are building your code for production
 RUN npm i --only=production
-
+RUN mkdir log
 # Bundle app source
 COPY . .
 
