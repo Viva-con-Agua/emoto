@@ -24,7 +24,8 @@ export default new Router({
     {
       path : '/mood/last',
       name : 'Mood Picture',
-      component: MoodPictureInfo
+      component: MoodPictureInfo,
+      props: true
     },
     {
       path : '/mood/form',

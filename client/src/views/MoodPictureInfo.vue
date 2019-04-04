@@ -21,7 +21,13 @@ export default {
       type: Number,
       required: false,
       default: -1
-  }},
+    },
+    'notification': {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
   data () {
     return {
       moods: {},
@@ -33,6 +39,10 @@ export default {
     }
   },
   created(){
+    if(this.notification){
+      this.showNotification()
+    }
+    
     this.getIdentity()
     // eslint-disable-next-line
     .then(_ => {
@@ -85,6 +95,13 @@ export default {
         this.showMoodPicture = true;
         return Promise.resolve()
       }
+    },
+    showNotification() {
+        this.$notify({
+          title: 'Year!',
+          message: 'Deine Sitmmung wurde gespeichert!',
+          type: 'success'
+        });
     }
   }
 }

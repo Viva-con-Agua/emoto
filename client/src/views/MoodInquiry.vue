@@ -247,7 +247,7 @@ export default {
       .then(response => {
         if(response.status === 200){
           this.dialogSuccessVisible = true;
-          router.push("last")
+          router.push({name: "Mood Picture", params: {notification: true }})
 
         }else{
           this.dialogErrorVisible = true;
