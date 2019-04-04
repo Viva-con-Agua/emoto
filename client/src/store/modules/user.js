@@ -54,8 +54,7 @@ const actions = {
           switch(error.response.status){
             case 401:
               // Not Authenticated!
-              //ToDo use generic uri
-              window.location.replace('/arise/#/signin/L2Vtb3RvLyMvbW9vZC9mb3Jt')
+              window.location.replace('/arise/#/signin/L2Vtb3Rv')
               break;
           case 403:
               // Forbidden!

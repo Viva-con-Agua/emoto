@@ -2,8 +2,8 @@
   <div id="app">
      <el-row>
         <el-col :span="18">
-            <p class="title">EMOTO</p>
-            <p class="subtitle">STIMMUNGSBAROMETER</p>
+            <p class="title"><a href="/emoto">EMOTO</a></p>
+            <p class="subtitle"><a href="/emoto">STIMMUNGSBAROMETER</a></p>
         </el-col>
         <el-col :span="6">
           <img src="/emoto/img/logo.png" class="logo" alt="Logo VcA" />
@@ -74,5 +74,15 @@ p.subtitle{
   font-size: 45px;
   margin: 0px;
   text-align:left;
+}
+
+p.title a{
+  color: #2c3e50;
+  text-decoration: none;
+}
+
+p.subtitle a{
+  text-decoration: none;
+  color: darkgray;
 }
 </style>

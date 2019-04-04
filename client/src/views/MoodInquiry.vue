@@ -210,6 +210,11 @@ export default {
               }).catch(error => {
                 if(error.response){
                   this.errorState = error.response.status
+                  switch(error.response.status){
+                  case 401:
+                    window.location.replace('/emoto')
+                    return
+                }
                 }
               })
     },
@@ -218,7 +223,7 @@ export default {
       const u = store.getters['user/get']
       if(u === null){
         //init first
-        window.location.replace('/emoto/#')
+        //window.location.replace('/emoto/#')
         return Promise.reject()
       }else{
         this.user = u

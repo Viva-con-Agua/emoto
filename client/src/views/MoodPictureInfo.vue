@@ -14,6 +14,7 @@ import store from './../store'
 
 import MoodPicture from '@/components/MoodPicture'
 export default {
+  name: 'MoodPictureInfo',
   components: {MoodPicture},
   props: {
     'id':{
@@ -58,14 +59,21 @@ export default {
             'X-EMOTO-USER': this.user
           }
         })
-          .then(response => {
-            switch(response.status){
-              case 200:
-                this.moodPictureId = response.data.id
-                this.showMoodPicture = true;
-                return
+        .then(response => {
+          switch(response.status){
+            case 200:
+              this.moodPictureId = response.data.id
+              this.showMoodPicture = true;
+              return
             }
           })
+        .catch(error => {
+           switch(error.response.status){
+             case 401:
+              window.location.replace('/emoto')
+              return
+           }
+        })
         
       }else{
         this.moodPictureId = this.id

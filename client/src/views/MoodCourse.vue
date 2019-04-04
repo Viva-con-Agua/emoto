@@ -87,9 +87,14 @@ export default {
         }
       })
        .catch(error => {
-                if(error.response){
-                  this.errorState = error.response.status
+          if(error.response){
+            this.errorState = error.response.status
+            switch(error.response.status){
+                  case 401:
+                    window.location.replace('/emoto')
+                    return
                 }
+          }
       })
     },
     openMoodPictureDialog: function(id){

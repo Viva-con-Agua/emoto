@@ -5,6 +5,7 @@ import MoodInquiryComponent from '@/views/MoodInquiry'
 import MoodPictureInfo from '@/views/MoodPictureInfo'
 import MoodCourse from '@/views/MoodCourse'
 import Settings from '@/views/Settings'
+import LandingPage from '@/views/LandingPage'
 
 Vue.use(Router)
 
@@ -13,7 +14,7 @@ export default new Router({
     {
       path: '/',
       name: 'Landing Page',
-      component: Settings
+      component: LandingPage
     },
     {
       path: '/settings',
