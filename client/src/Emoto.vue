@@ -32,7 +32,7 @@
 //import axios from 'axios'
 import store from './store'
 //import router from './router'
-
+import Vue from 'vue'
 export default {
   name: 'app',
   data() {
@@ -45,7 +45,8 @@ export default {
     this.getIdentity()
   },
   updated(){
-   
+    const currentPath = this.$route.path
+    this.activeIndex = currentPath
   },
   methods: {
     getIdentity: function(){
