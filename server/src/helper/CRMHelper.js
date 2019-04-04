@@ -1,9 +1,12 @@
 'use strict';
 
+const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/../config/main.json')[env];
+
 const SITE_KEY = process.env.EMOTO_CIVI_SITE_KEY || undefined;
 const USER_KEY = process.env.EMOTO_CIVI_USER_KEY || undefined;
-const NWT_GROUP_ID = 343;
-const CIVI_CRM_URL= "https://testcrm.vivaconagua.org/sites/all/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key="+USER_KEY+"&key="+SITE_KEY+"&json=";
+const NWT_GROUP_ID = config.civi_crm.nwt_group_id;
+const CIVI_CRM_URL= config.civi_crm.api_endpoint +"/sites/all/modules/civicrm/extern/rest.php?entity=Contact&action=get&api_key="+USER_KEY+"&key="+SITE_KEY+"&json=";
 
 let JSON_PAYLOAD = {
                       sequential:1,
