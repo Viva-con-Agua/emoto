@@ -1,8 +1,10 @@
 <template>
   <div class="Settings">
     <info />
-
-    <privacy-settings />
+    <privacy-settings
+      v-bind:user-required="true"
+      v-bind:reset-btn="true"
+    />
   </div>
 </template>
 

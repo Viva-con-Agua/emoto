@@ -66,7 +66,8 @@ export default {
   props: {
     'submitBtn': {
       type: String,
-      required: false
+      required: false,
+      default: "Einstellungen speichern"
     },
     'resetBtn': {
       type: Boolean,
