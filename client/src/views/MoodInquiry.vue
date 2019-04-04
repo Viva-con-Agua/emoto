@@ -292,7 +292,10 @@ export default {
     },
     createRequestBodyFromForm(formData){
       //Drop all empty objects from the form 
-      const f = formData.filter(i => Object.keys(i).length !== 0);
+      let f = formData.filter(i => Object.keys(i).length !== 0);
+
+      // Drop also all objects without a question
+      f = f.filter(i => i.question !== null);
 
       const data = {
         user: this.user,

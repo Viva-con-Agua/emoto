@@ -28,11 +28,7 @@
 </template>
 
 <script>
-
-//import axios from 'axios'
 import store from './store'
-//import router from './router'
-import Vue from 'vue'
 export default {
   name: 'app',
   data() {
