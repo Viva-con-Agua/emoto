@@ -61,7 +61,7 @@ export default {
 
       if(u === null){
         //init first
-        window.location.replace('/emoto/#')
+        router.push({name: 'Landing Page'})
         return Promise.reject()
       }else{
         this.user = u

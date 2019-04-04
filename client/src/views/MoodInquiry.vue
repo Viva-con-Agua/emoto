@@ -227,7 +227,7 @@ export default {
 
       if(u === null){
         //init first
-        //window.location.replace('/emoto/#')
+        router.push({name: 'Landing Page'})
         return Promise.reject()
       }else{
         this.user = u
@@ -247,7 +247,7 @@ export default {
       .then(response => {
         if(response.status === 200){
           this.dialogSuccessVisible = true;
-          router.push({name: "Mood Picture", params: {notification: true }})
+          router.push({name: "Last Mood Picture", params: {notification: true }})
 
         }else{
           this.dialogErrorVisible = true;

@@ -16,6 +16,7 @@ import Vue from 'vue'
 
 import axios from 'axios'
 import store from './../store'
+import router from './../router'
 //import Vue from 'vue'
 import VueApexCharts from 'vue-apexcharts'
 
@@ -149,7 +150,7 @@ export default {
 
       if(u === null){
         //init first
-        window.location.replace('/emoto/#')
+        router.push({name: "Landing Page"});
         return Promise.reject()
       }else{
         this.user = u

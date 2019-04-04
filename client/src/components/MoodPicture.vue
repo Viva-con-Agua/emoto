@@ -52,6 +52,7 @@
 
 import axios from 'axios'
 import store from './../store'
+import router from './../router'
 
 import MoodChart from '@/components/MoodChart'
 export default {
@@ -86,7 +87,7 @@ export default {
 
       if(u === null){
         //init first
-        window.location.replace('/emoto/#')
+        router.push({name: "Landing Page"})
         return Promise.reject()
       }else{
         this.user = u
