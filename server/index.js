@@ -59,7 +59,6 @@ app.all('/emotobackend*', function(req, res, next){
   //http://localhost/emotobackend
   req.url = req.url.replace(/^\/emotobackend/, '/');
 
-  console.log(req.url);
   return next();
 });
 
@@ -89,7 +88,6 @@ app.post('/user/access', function(req,res){
     }else{
       return CRMHelper.validateAccess(email)
       .then(function(a){
-        console.log(a);
         if(a){
           return UserController.create(id, null)
           .then(function(){
@@ -125,16 +123,15 @@ app.use(function(req,res,next){
     }
     return UserIdHelper.translateId(id)
     .then(function(u){
-      console.log(u);
       req.user = u.id;
       req.active = u.active;
-      next();
+      return next();
     })
     .catch(function(err){
       return res.status(401).send({'error': err.toString()});
     });
   }else{
-    next();
+    return next();
   }
 });
 
@@ -221,13 +218,8 @@ app.get('/moods/id', function(req, res){
 
 
 app.post('/mood', function (req, res) {
-  console.log(req.body);
-  let userId = 0;
-  return UserIdHelper.translateId(req.body.user, null)
-  .then(function(id){
-    userId = id;
-    return MoodPictureHelper.handleCustomQuestions(id, req.body.mood);
-  })
+  let userId = req.user;
+  return MoodPictureHelper.handleCustomQuestions(userId, req.body.mood)
   .then(function(moods){
     return MoodPictureController.createMoodPicture({user: userId, mood: moods});
   })
