@@ -40,8 +40,9 @@ var accessLogStream = rfs('access.log', {
 })
  
 // setup the logger
-app.use(morgan('combined', { stream: accessLogStream }))
-
+morgan.token('user', function (req, res) { return req.headers[USER_ID_HEADER_FIELDNAME]; });
+morgan.token('crew', function (req, res) { return req.headers[CREW_ID_HEADER_FIELDNAME]; });
+app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - :user - :crew', {stream: accessLogStream}));
 
 app.use(cors());
 app.use(bodyparser.json());
