@@ -1,12 +1,14 @@
 {
   "development": {
     "civi_crm": {
-      "nwt_group_id": 123,
-      "api_endpoint": "https://civicrm.vivaconagua.org"
+      "nwt_group_id": 343,
+      "api_endpoint": "https://testcrm.vivaconagua.org"
     }
   },
   "production": {
-    "nwt_group_id": 343,
-    "api_endpoint": "https://civicrm.vivaconagua.org"
+    "civi_crm": {
+      "nwt_group_id": 343,
+      "api_endpoint": "https://testcrm.vivaconagua.org"
+    }
   }
 }
