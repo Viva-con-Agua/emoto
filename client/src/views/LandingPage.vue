@@ -35,7 +35,9 @@ export default {
   data() {
    return {
      pending: true,
-     access: false
+     access: false,
+     userId: null,
+     crewId: null
    }
   },
   created () {
@@ -45,7 +47,10 @@ export default {
       this.validateAccess();
     })
     // eslint-disable-next-line
-    .catch(_ => {})
+    .catch(_ => {
+      this.pending = false;
+      this.access = false;
+    })
   },
   methods: {
      getIdentity: function(){
@@ -56,8 +61,15 @@ export default {
       })
       .then(response => {
           this.userId = response.data.additional_information.id;
-          this.email = response.data.additional_information.profiles[0].email;
-          this.crewId = response.data.additional_information.profiles[0].supporter.crew.id;
+          if(response.data.additional_information.profiles.length>0){
+            this.email = response.data.additional_information.profiles[0].email;
+
+            if(response.data.additional_information.profiles[0].supporter.crew){
+              this.crewId = response.data.additional_information.profiles[0].supporter.crew.id;
+            }
+          }else{
+            return new Error('no e-mailadresse availabel');
+          }
       })
     },
     validateAccess(){
