@@ -2,11 +2,11 @@
   <div class="PrivacySettings">
     <h1> Datenschutz Einstellungen</h1>
 
-    <p>Im Rahmen der Testphase, sollen gewisse Auswertung der Daten erfolgen. Du kannst selbst frei entscheiden, ob du deine Daten für diese Auswertungen zur Verfügung stellen möchtest. Diese Einstellung kannst du im Lauf der Testphase ändern. Die Datenauswertungen werden im Rahmen einer Masterarbeit veröffentlicht und auf dem NWT im Rahmen eines Workshops in Teilen präsentiert. Bei der Auswertung der Daten wird wie folgt unterschieden:
+    <p>Im Rahmen der Testphase soll eine gewisse anonymisierte Auswertung der Daten erfolgen. Du kannst selbst frei entscheiden, ob du deine Daten für diese Auswertungen zur Verfügung stellen möchtest. Diese Einstellung kannst du im Lauf der Testphase ändern. Die Datenauswertungen werden im Rahmen einer Masterarbeit veröffentlicht und auf dem NWT im Rahmen eines Workshops in Teilen präsentiert. Bei der Auswertung der Daten wird wie folgt unterschieden:
     
     <ul>
-      <li><strong>anonymisierte statistische Auswertungen: </strong> Bei diesen Auswertungen werden primär numerische Werte betrachtet. Es geht beispielsweise darum zu untersuchen wie oft eine Person eine Stimmung dokumentiert hat oder wie oft ein Stimmungsbild angeschaut wurde.</li>
-      <li><strong>anonymisierte inhaltliche Auswertungen: </strong>Bei diesen Auswertungen werden mehr die inhalte angeschaut. So könnte beispielsweise eine Gesamtstimmung über den Testzeitraum hinweg abgeleitet werden. </li>
+      <li><strong>Anonymisierte statistische Auswertungen: </strong> Bei diesen Auswertungen werden primär numerische Werte betrachtet. Es geht beispielsweise darum zu untersuchen, wie oft eine Person eine Stimmung dokumentiert hat oder wie oft ein Stimmungsbild angeschaut wurde.</li>
+      <li><strong>Anonymisierte inhaltliche Auswertungen: </strong>Bei diesen Auswertungen werden mehr die Inhalte angeschaut. So könnte beispielsweise eine Gesamtstimmung über den Testzeitraum hinweg abgeleitet werden. </li>
     </ul>
     </p>
 
