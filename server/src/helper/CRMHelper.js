@@ -24,16 +24,19 @@ class CRMHelper{
     }
 
     JSON_PAYLOAD.email = email;
+
     return  axios.get(CIVI_CRM_URL+JSON.stringify(JSON_PAYLOAD))
     .then(function(r){
-      if(r.data.count === 1){
-        const groupStr = r.data.values[0].groups;
-        const groups = groupStr.split(',').map(Number);
-        if(groups.indexOf(NWT_GROUP_ID) >= 0){
-          return Promise.resolve(true);
-        }else{
-          return Promise.resolve(false);
-        }
+      if(r.data.count > 1){
+        let access = false;
+        r.data.values.map(v => {
+          const groupStr = r.data.values[0].groups;
+          const groups = groupStr.split(',').map(Number);
+          if(groups.indexOf(NWT_GROUP_ID) >= 0){
+            access = true;
+          }
+        });
+        return Promise.resolve(access);
       }else{
         return Promise.resolve(false);
       }
