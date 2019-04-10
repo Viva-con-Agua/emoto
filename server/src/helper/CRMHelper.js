@@ -26,10 +26,14 @@ class CRMHelper{
     JSON_PAYLOAD.email = email;
     return  axios.get(CIVI_CRM_URL+JSON.stringify(JSON_PAYLOAD))
     .then(function(r){
-      const groupStr = r.data.values[0].groups;
-      const groups = groupStr.split(',').map(Number);
-      if(groups.indexOf(NWT_GROUP_ID) >= 0){
-        return Promise.resolve(true);
+      if(r.data.count === 1){
+        const groupStr = r.data.values[0].groups;
+        const groups = groupStr.split(',').map(Number);
+        if(groups.indexOf(NWT_GROUP_ID) >= 0){
+          return Promise.resolve(true);
+        }else{
+          return Promise.resolve(false);
+        }
       }else{
         return Promise.resolve(false);
       }

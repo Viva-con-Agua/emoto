@@ -72,9 +72,15 @@ app.get('/', function (req, res) {
   return res.send('emoto is running');
 });
 
-app.post('/user/access', function(req,res){  
+app.post('/user/access', function(req,res){
   const id = req.body.userId;
   const email = req.body.email;
+  if(email === ''){
+    return res.status(500).send({'error': 'Empty string is no valid value for email'});
+  }else if(!validateUUID(id)){
+    return res.status(500).send({'error': 'invalid data type for user id'});
+  }
+  
   const crewId = req.body.crewId || null;
   if(id === undefined || email === undefined){
     return res.status(500).send({'error': 'parameter userId and email required'});
