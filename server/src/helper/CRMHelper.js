@@ -27,7 +27,7 @@ class CRMHelper{
 
     return  axios.get(CIVI_CRM_URL+JSON.stringify(JSON_PAYLOAD))
     .then(function(r){
-      if(r.data.count > 1){
+      if(r.data.count > 0){
         let access = false;
         r.data.values.map(v => {
           const groupStr = r.data.values[0].groups;
