@@ -22,9 +22,12 @@ class QuestionController{
         {
           model: models.AnswerSet, 
           include: [
-            models.Answer
+            { model : models.Answer }
           ]  
         }
+      ],
+      order: [
+        [models.AnswerSet, models.Answer, 'weight', 'desc']
       ]
     });
   }
@@ -41,9 +44,12 @@ class QuestionController{
         {
           model: models.AnswerSet, 
           include: [
-            models.Answer
+            { model : models.Answer }
           ]  
         }
+      ],
+      order: [
+        [models.AnswerSet, models.Answer, 'weight', 'desc']
       ]
     });
   }

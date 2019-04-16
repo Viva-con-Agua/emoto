@@ -4,7 +4,11 @@ const models = require('./../models');
 
 class AnswerController{
   static getAll(){
-    return models.Answer.findAll();
+    return models.Answer.findAll({
+        order: [
+          ['weight', 'DESC']
+        ]
+    });
   }
 }
 
