@@ -7,8 +7,8 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('AnswerSets', [
       {
-        "posAdjective" : "positiv",
-        "negAdjective" : "negativ"
+        "posAdjective" : "gut",
+        "negAdjective" : "schlecht"
       }
     ])
     .then(function(){
@@ -17,32 +17,32 @@ module.exports = {
     .then(function(answerSets){
       return queryInterface.bulkInsert('Answers', [
         {
-          "answer": "sehr negativ",
+          "answer": "sehr schlecht",
           "answerSetId": answerSets[0].dataValues.id,
           "weight": -3
         },
         {
-          "answer": "negativ",
+          "answer": "schlecht",
           "answerSetId": answerSets[0].dataValues.id,
           "weight": -2
         },
         {
-          "answer": "eher negativ", 
+          "answer": "eher schlecht", 
           "answerSetId": answerSets[0].dataValues.id,
           "weight": -1
         },
         {
-          "answer": "eher positiv", 
+          "answer": "eher gut", 
           "answerSetId": answerSets[0].dataValues.id,
           "weight": 1
         },
         {
-          "answer": "positiv",
+          "answer": "gut",
           "answerSetId": answerSets[0].dataValues.id,
           "weight": 2
         },
         {
-          "answer": "sehr positiv",
+          "answer": "sehr gut",
           "answerSetId": answerSets[0].dataValues.id,
           "weight": 3
         }
