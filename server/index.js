@@ -23,11 +23,12 @@ const UserController = require('./src/controller/UserController');
 const UserIdHelper = require('./src/helper/UserIdHelper');
 const MoodPictureHelper = require('./src/helper/MoodPictureHelper');
 const CRMHelper = require('./src/helper/CRMHelper');
+const AnalyticsController = require('./src/controller/AnalyticsController');
 
 const USER_ID_HEADER_FIELDNAME = 'X-EMOTO-USER'.toLowerCase();
 const CREW_ID_HEADER_FIELDNAME = 'X-EMOTO-CREW'.toLowerCase();
 
-const PORT = 3000;
+const PORT = 8080;
 const HOST = '0.0.0.0';
 
 const logDirectory = path.join(__dirname, 'log');
@@ -116,6 +117,31 @@ app.post('/user/access', function(req,res){
   .catch(function(err){
     console.log(err.toString());
     return res.status(500).send({'error': 'internal server error'});
+  });
+});
+
+/////////////////////
+// analytic routes //
+/////////////////////
+
+app.get('/analytics/participants', function(req, res){
+  return AnalyticsController.getParticipants()
+  .then(function(participants){
+    return res.send(participants);
+  });
+});
+
+app.get('/analytics/crews', function(req, res){
+  return AnalyticsController.getCrews()
+  .then(function(crews){
+    return res.send(crews);
+  });
+});
+
+app.get('/analytics/moods', function(req, res){
+  return AnalyticsController.getMoods()
+  .then(function(moods){
+    return res.send(moods);
   });
 });
 
@@ -300,7 +326,7 @@ app.get('/user', function(req, res){
 });
 
 app.listen(PORT, HOST, function () {
-  console.log('Example app listening on port 3000!');
+  console.log('Example app listening on port 8080!');
 });
 
 OAuth2Controller.init();
