@@ -43,24 +43,30 @@ export const mainListItems = (
 export const secondaryListItems = (
   <div>
     <ListSubheader inset>Stimmungen</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <TimelineIcon />
-      </ListItemIcon>
-      <ListItemText primary="Persönliche Stimmung" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <TimelineIcon />
-      </ListItemIcon>
-      <ListItemText primary="Letzte Aktion" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <TimelineIcon />
-      </ListItemIcon>
-      <ListItemText primary="Crew" />
-    </ListItem>
+    <Link  to="/personalmood">
+      <ListItem button>
+        <ListItemIcon>
+          <TimelineIcon />
+        </ListItemIcon>
+        <ListItemText primary="Persönliche Stimmung" />
+      </ListItem>
+    </Link>
+    <Link  to="/actionmood">
+      <ListItem button>
+        <ListItemIcon>
+          <TimelineIcon />
+        </ListItemIcon>
+        <ListItemText primary="Letzte Aktion" />
+      </ListItem>
+    </Link>
+    <Link  to="/crewmood">
+      <ListItem button>
+        <ListItemIcon>
+          <TimelineIcon />
+        </ListItemIcon>
+        <ListItemText primary="Crew" />
+      </ListItem>
+    </Link>
     <Link  to="/moodoverview">
     <ListItem button>
     <ListItemIcon>

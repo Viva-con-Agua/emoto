@@ -145,6 +145,13 @@ app.get('/analytics/moods', function(req, res){
   });
 });
 
+app.get('/analytics/mood/:id', function(req,res){
+  return AnalyticsController.getMood(req.params.id)
+  .then(function(mood){
+    return res.send(mood);
+  });
+});
+
 /////////////////////////////////////
 // routes which need a internal id //
 /////////////////////////////////////

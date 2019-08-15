@@ -99,6 +99,15 @@ class AnalyticsController{
     
     });
   }
+
+  static getMood(id){
+    const query = createQuery(id);
+
+    return models.sequelize.query(query)
+    .then(function(r){
+      return Promise.resolve(r[0]);
+    });
+  }
 }
 
 module.exports = AnalyticsController;
